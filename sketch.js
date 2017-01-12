@@ -40,7 +40,6 @@ function setJelloShots(num){
   for(var i=0;i<num;i++){
     var location = createVector(floor(random(cols)), floor(random(rows))).mult(pixel_size);
     while(snake_intersect(location)){
-      console.log("interesct caught at:", location);
       location = createVector(floor(random(cols)), floor(random(rows))).mult(pixel_size);
     }
     shots.push(location);

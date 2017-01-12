@@ -32,7 +32,7 @@ function Snake(){
   }
 
   this.checkDeath = function(){
-    if(this.pos.x > width || this.pos.y > height || this.pos.x < 0 || this.pos.y < 0){
+    if(this.pos.x >= width || this.pos.y >= height || this.pos.x < 0 || this.pos.y < 0){
       this.reset();
       setJelloShots(5);
     }
