@@ -2,17 +2,21 @@ var snake;
 var pixel_size = 20;
 var shots = [];
 var movement = [];
+var highscore = 0;
 
 function setup(){
   createCanvas(600, 600);
   frameRate(10);
   snake = new Snake();
   setJelloShots(5);
-
 }
 
 function draw(){
   background(50, 50, 100);
+  // noStroke();
+  fill(255);
+  text("score: " + snake.tail.length, 1, 10);
+  text("highscore: " + highscore, 1, 24);
 
   snake.update();
   snake.show();
@@ -25,6 +29,7 @@ function draw(){
       snake.tail.push(createVector(snake.x, snake.y));
       shots.splice(i, 1);
       setJelloShots(1);
+      if(snake.tail.length > highscore) highscore = snake.tail.length;
     }
   }
 }
