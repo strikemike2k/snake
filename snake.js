@@ -33,13 +33,15 @@ function Snake(){
 
   this.checkDeath = function(){
     if(this.pos.x >= width || this.pos.y >= height || this.pos.x < 0 || this.pos.y < 0){
-      this.reset();
-      setJelloShots(5);
+    	gameState = 'end';
+      // this.reset();
+      // setJelloShots(5);
     }
     for(var i=0;i<this.tail.length;i++){
       if(this.tail[i].x == this.pos.x && this.tail[i].y == this.pos.y){
-        this.reset();
-        setJelloShots(5);
+      	gameState = 'end';
+        // this.reset();
+        // setJelloShots(5);
       }
     }
   }
