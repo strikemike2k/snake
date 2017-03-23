@@ -3,35 +3,83 @@ var pixel_size = 20;
 var shots = [];
 var movement = [];
 var highscore = 0;
+var gameState = 'init';
 
 function setup(){
   createCanvas(600, 600);
   frameRate(10);
-  snake = new Snake();
-  setJelloShots(5);
+  // snake = new Snake();
+  // setJelloShots(5);
+}
+
+function initGame(){
+	background(50, 50, 100);
+	var name = 'Snake Game';
+	nameWidht = textWidth(name);
+	textSize(50);
+	fill(255);
+	text(name, (width - nameWidht)/2, height/2 - 40);
+	startBtn = createButton('Start Game');
+	startBtn.position(width/2 - startBtn.width/2, height/2);
+	startBtn.mousePressed(startGame);
+}
+
+function startGame(){
+	removeElements();
+	gameState = 'play';
+	snake = new Snake();
+	setJelloShots(5);
+}
+
+function runGame(){
+	background(50, 50, 100);
+	// noStroke();
+	textSize(12);
+	fill(255);
+	text("score: " + snake.tail.length, 1, 10);
+	text("highscore: " + highscore, 1, 24);
+
+	snake.update();
+	snake.show();
+	snake.checkDeath();
+
+	fill(0, 255, 0, 100);
+	for(var i=0;i<shots.length;i++){
+		rect(shots[i].x, shots[i].y, pixel_size, pixel_size);
+		if(snake.eat(shots[i])){
+			snake.tail.push(createVector(snake.x, snake.y));
+			shots.splice(i, 1);
+			setJelloShots(1);
+			if(snake.tail.length > highscore) highscore = snake.tail.length;
+		}	
+	}
+}
+
+function endGame(){
+	background(50, 50, 100);
+	var msg = 'Game Over';
+	var score = 'Your Score is ' + snake.tail.length;
+	msgWidht = textWidth(msg);
+	scoreWidht = textWidth(score);
+	textSize(32);
+	fill(255);
+	text(msg, (width - msgWidht)/2, height/2 - 40);
+	text(score, (width - scoreWidht)/2, height/2);
+	startBtn = createButton('Restart Game');
+	startBtn.position(width/2 - startBtn.width/2, height/2 + 40);
+	startBtn.mousePressed(startGame);
 }
 
 function draw(){
-  background(50, 50, 100);
-  // noStroke();
-  fill(255);
-  text("score: " + snake.tail.length, 1, 10);
-  text("highscore: " + highscore, 1, 24);
-
-  snake.update();
-  snake.show();
-  snake.checkDeath();
-
-  fill(0, 255, 0, 100);
-  for(var i=0;i<shots.length;i++){
-    rect(shots[i].x, shots[i].y, pixel_size, pixel_size);
-    if(snake.eat(shots[i])){
-      snake.tail.push(createVector(snake.x, snake.y));
-      shots.splice(i, 1);
-      setJelloShots(1);
-      if(snake.tail.length > highscore) highscore = snake.tail.length;
-    }
-  }
+	if(gameState == 'init'){
+		initGame();
+	}
+	else if(gameState == 'play'){
+		runGame();
+	}
+	else if(gameState == 'end'){
+		endGame();
+	}
 }
 
 function setJelloShots(num){
@@ -78,4 +126,3 @@ function keyPressed(){
     movement.push([1, 0]);
   }
 }
-
