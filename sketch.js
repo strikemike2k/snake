@@ -8,20 +8,19 @@ var gameState = 'init';
 function setup(){
   createCanvas(600, 600);
   frameRate(10);
-  // snake = new Snake();
-  // setJelloShots(5);
 }
 
 function initGame(){
 	background(50, 50, 100);
 	var name = 'Snake Game';
-	nameWidht = textWidth(name);
 	textSize(50);
 	fill(255);
+	nameWidht = textWidth(name);
 	text(name, (width - nameWidht)/2, height/2 - 40);
 	startBtn = createButton('Start Game');
 	startBtn.position(width/2 - startBtn.width/2, height/2);
 	startBtn.mousePressed(startGame);
+	noLoop();
 }
 
 function startGame(){
@@ -29,11 +28,11 @@ function startGame(){
 	gameState = 'play';
 	snake = new Snake();
 	setJelloShots(5);
+	loop();
 }
 
 function runGame(){
 	background(50, 50, 100);
-	// noStroke();
 	textSize(12);
 	fill(255);
 	text("score: " + snake.tail.length, 1, 10);
@@ -57,17 +56,18 @@ function runGame(){
 
 function endGame(){
 	background(50, 50, 100);
+	textSize(32);
 	var msg = 'Game Over';
 	var score = 'Your Score is ' + snake.tail.length;
 	msgWidht = textWidth(msg);
 	scoreWidht = textWidth(score);
-	textSize(32);
 	fill(255);
 	text(msg, (width - msgWidht)/2, height/2 - 40);
 	text(score, (width - scoreWidht)/2, height/2);
 	startBtn = createButton('Restart Game');
 	startBtn.position(width/2 - startBtn.width/2, height/2 + 40);
 	startBtn.mousePressed(startGame);
+	noLoop();
 }
 
 function draw(){
